@@ -15,4 +15,16 @@ describe("App", () => {
     await user.selectOptions(screen.getByLabelText("Genre"), "sci-fi");
     expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(2);
   });
+
+  test("removes the right book while a filter is active", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.selectOptions(screen.getByLabelText("Genre"), "sci-fi");
+    await user.click(screen.getByRole("button", { name: "Remove Neuromancer" }));
+    await user.selectOptions(screen.getByLabelText("Genre"), "all");
+    const titles = screen
+      .getAllByRole("heading", { level: 3 })
+      .map((heading) => heading.textContent);
+    expect(titles).toEqual(["Dune", "The Hobbit", "Gone Girl", "Sapiens"]);
+  });
 });
