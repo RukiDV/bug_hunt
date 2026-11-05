@@ -58,3 +58,14 @@ describe("countRead", () => {
     expect(countRead(initialBooks)).toBe(2);
   });
 });
+
+describe("averageRating", () => {
+  test("averages only the rated books", () => {
+    expect(averageRating(initialBooks)).toBe(4);
+  });
+
+  test("returns null if no book is rated", () => {
+    const unrated = initialBooks.map((book) => ({ ...book, rating: 0 }));
+    expect(averageRating(unrated)).toBeNull();
+  });
+});
